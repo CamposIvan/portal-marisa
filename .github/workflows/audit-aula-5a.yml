@@ -23,7 +23,7 @@ jobs:
           import json, re, requests, fitz, time
           from pathlib import Path
           source=Path("index.html").read_text(encoding="utf-8")
-          m=re.search(r"const registros = (\\[.*?\\]);\\s*\\nconst LIMIAR", source, re.S)
+          m=re.search(r"const registros = (\[.*?\]);\s*\nconst LIMIAR", source, re.S)
           if not m:
               raise SystemExit("Não foi possível ler a base registros em index.html")
           rows=json.loads(m.group(1))
@@ -36,24 +36,24 @@ jobs:
           out=[]
           for i,(url,items) in enumerate(by_url.items(),1):
               desc=" || ".join(dict.fromkeys(x[4] for x in items))
-              print(f"\\n### {i}/{len(by_url)} | {url}\\nDESCRITOR NO CSV: {desc}")
+              print(f"\n### {i}/{len(by_url)} | {url}\nDESCRITOR NO CSV: {desc}")
               try:
                   res=s.get(url,timeout=35,allow_redirects=True)
                   ctype=res.headers.get("content-type","")
                   print("HTTP:",res.status_code,"FINAL:",res.url,"TYPE:",ctype,"BYTES:",len(res.content))
                   if res.ok and (res.content[:4]==b"%PDF" or "pdf" in ctype.lower()):
                       doc=fitz.open(stream=res.content,filetype="pdf")
+                      first_text=" ".join(doc[0].get_text().split())[:1100] if len(doc) else ""
                       print("PDF PAGES:",len(doc),"TITLE:",doc.metadata.get("title"))
-                      text=" ".join(doc[0].get_text().split())[:1100] if len(doc) else ""
-                      print("FIRST PAGE:",text)
-                      out.append({"url":url,"status":res.status_code,"pages":len(doc),"title":doc.metadata.get("title"),"text":text,"descriptors":[x[4] for x in items]})
+                      print("FIRST PAGE:",first_text)
+                      out.append({"url":url,"status":res.status_code,"pages":len(doc),"title":doc.metadata.get("title"),"text":first_text,"descriptors":[x[4] for x in items]})
                   else:
-                      print("NOT PDF BODY:",res.text[:160].replace("\\n"," "))
+                      print("NOT PDF BODY:",res.text[:160].replace("\n"," "))
                       out.append({"url":url,"status":res.status_code,"type":ctype,"descriptors":[x[4] for x in items]})
               except Exception as e:
                   print("ERROR:",repr(e))
                   out.append({"url":url,"error":repr(e),"descriptors":[x[4] for x in items]})
               time.sleep(.15)
           Path("audit-aula-5a.json").write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding="utf-8")
-          print(f"\\nAUDIT_DONE urls={len(by_url)} rows={len(selected)}")
+          print(f"\nAUDIT_DONE urls={len(by_url)} rows={len(selected)}")
           PY
