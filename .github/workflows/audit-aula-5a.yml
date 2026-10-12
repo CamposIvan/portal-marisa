@@ -1,0 +1,59 @@
+name: Conferir links de aula — 5º A / 1º bimestre
+on:
+  push:
+    paths:
+      - ".github/workflows/audit-aula-5a.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter arquivos do repositório
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Baixar e conferir os PDFs
+        run: |
+          python -m pip install --quiet requests pymupdf
+          python - <<'PY'
+          import json, re, requests, fitz, time
+          from pathlib import Path
+          source=Path("index.html").read_text(encoding="utf-8")
+          m=re.search(r"const registros = (\\[.*?\\]);\\s*\\nconst LIMIAR", source, re.S)
+          if not m:
+              raise SystemExit("Não foi possível ler a base registros em index.html")
+          rows=json.loads(m.group(1))
+          selected=[r for r in rows if r[0]=="A" and r[1]==1]
+          by_url={}
+          for r in selected:
+              by_url.setdefault(r[6], []).append(r)
+          s=requests.Session()
+          s.headers.update({"User-Agent":"Mozilla/5.0 (compatible; link-audit/1.0)"})
+          out=[]
+          for i,(url,items) in enumerate(by_url.items(),1):
+              desc=" || ".join(dict.fromkeys(x[4] for x in items))
+              print(f"\\n### {i}/{len(by_url)} | {url}\\nDESCRITOR NO CSV: {desc}")
+              try:
+                  res=s.get(url,timeout=35,allow_redirects=True)
+                  ctype=res.headers.get("content-type","")
+                  print("HTTP:",res.status_code,"FINAL:",res.url,"TYPE:",ctype,"BYTES:",len(res.content))
+                  if res.ok and (res.content[:4]==b"%PDF" or "pdf" in ctype.lower()):
+                      doc=fitz.open(stream=res.content,filetype="pdf")
+                      print("PDF PAGES:",len(doc),"TITLE:",doc.metadata.get("title"))
+                      text=" ".join(doc[0].get_text().split())[:1100] if len(doc) else ""
+                      print("FIRST PAGE:",text)
+                      out.append({"url":url,"status":res.status_code,"pages":len(doc),"title":doc.metadata.get("title"),"text":text,"descriptors":[x[4] for x in items]})
+                  else:
+                      print("NOT PDF BODY:",res.text[:160].replace("\\n"," "))
+                      out.append({"url":url,"status":res.status_code,"type":ctype,"descriptors":[x[4] for x in items]})
+              except Exception as e:
+                  print("ERROR:",repr(e))
+                  out.append({"url":url,"error":repr(e),"descriptors":[x[4] for x in items]})
+              time.sleep(.15)
+          Path("audit-aula-5a.json").write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding="utf-8")
+          print(f"\\nAUDIT_DONE urls={len(by_url)} rows={len(selected)}")
+          PY
