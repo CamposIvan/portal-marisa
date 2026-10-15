@@ -40,11 +40,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const [records, targets, plan] = await Promise.all([
+    const [records, targets, plan, subjectCatalog] = await Promise.all([
       fetchRows(
         "saresp_results",
         "class_group,bimester,grade_label,score_percent,descriptor,subject,lesson_url,question_url,source_file,source_row,is_mapa_foco_saresp,aprendizagens_essenciais",
-        "bimester.asc,class_group.asc,source_row.asc"
+        "grade_label.asc,bimester.asc,class_group.asc,source_row.asc"
       ),
       fetchRows(
         "saresp_planning_targets",
@@ -55,6 +55,11 @@ module.exports = async function handler(req, res) {
         "saresp_intervention_plan",
         "week_number,title,subject,description,lesson_reference,order_in_cycle,active",
         "week_number.asc"
+      ).then(rows => rows.filter(row => row.active !== false)),
+      fetchRows(
+        "saresp_subject_catalog",
+        "grade_stage,grade_label,subject,active,mapa_foco_status,source_note",
+        "grade_label.asc,subject.asc"
       ).then(rows => rows.filter(row => row.active !== false))
     ]);
 
@@ -62,6 +67,7 @@ module.exports = async function handler(req, res) {
       records,
       targets,
       plan,
+      subject_catalog: subjectCatalog,
       refreshed_at: new Date().toISOString()
     });
   } catch (error) {
