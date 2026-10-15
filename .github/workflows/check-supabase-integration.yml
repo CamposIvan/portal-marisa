@@ -11,6 +11,8 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Obter código do repositório
+        uses: actions/checkout@v4
       - name: Validar endpoint e dados publicados
         run: |
           python - <<'PY'
@@ -38,15 +40,23 @@ jobs:
           assert isinstance(records, list), "records não é uma lista"
           assert isinstance(targets, list), "targets não é uma lista"
           assert isinstance(plan, list), "plan não é uma lista"
-          assert len(records) == 360, f"Esperava 360 resultados, recebi {len(records)}"
+          assert len(records) == 600, f"Esperava 600 resultados, recebi {len(records)}"
           assert len(targets) == 4, f"Esperava 4 metas, recebi {len(targets)}"
           assert len(plan) == 4, f"Esperava 4 semanas, recebi {len(plan)}"
+          catalog = data.get("subject_catalog")
+          assert isinstance(catalog, list), "subject_catalog não é uma lista"
+          assert len(catalog) == 24, f"Esperava 24 entradas de catálogo, recebi {len(catalog)}"
+          assert sum(1 for x in records if x.get("grade_label") == "6° ANO") == 240, "Esperava 240 resultados do 6º ano A"
+          assert len({x.get("source_file") for x in records}) == 9, "Esperava os seis CSVs do 5º ano e os três XLSX do 6º ano"
           assert all(x.get("lesson_url") and x.get("question_url") for x in records), "Há registro sem link de aula/questão"
           assert sum(1 for x in records if x.get("is_mapa_foco_saresp")) == 132, "Quantidade de marcadores Mapa Foco divergente"
+          assert not any(x.get("is_mapa_foco_saresp") for x in records if x.get("grade_label") == "6° ANO"), "O 6º ano não deve ser marcado como Mapa Foco antes da validação específica"
           print(json.dumps({
               "status":"ok",
               "records":len(records),
               "distinct_source_files":len({r.get("source_file") for r in records}),
+              "grade_6_records":sum(r.get("grade_label") == "6° ANO" for r in records),
+              "catalog_entries":len(catalog),
               "records_with_lesson_and_question":sum(bool(r.get("lesson_url") and r.get("question_url")) for r in records),
               "mapa_foco_records":sum(bool(r.get("is_mapa_foco_saresp")) for r in records),
               "planning_targets":len(targets),
@@ -54,11 +64,11 @@ jobs:
               "refreshed_at":data.get("refreshed_at")
           }, ensure_ascii=False, indent=2))
           PY
-      - name: Validar JavaScript da página publicada
+      - name: Validar JavaScript do projeto
         run: |
           python - <<'PY'
           from html.parser import HTMLParser
-          from urllib.request import Request, urlopen
+          from pathlib import Path
           class Scripts(HTMLParser):
               def __init__(self):
                   super().__init__()
@@ -77,13 +87,14 @@ jobs:
               def handle_endtag(self, tag):
                   if tag.lower() == "script":
                       self.current = False
-          req = Request("https://painel-saresp-pei-marisa.vercel.app/?smoke=73f7d745", headers={"User-Agent":"SARESP-smoke-test","Cache-Control":"no-cache"})
-          with urlopen(req, timeout=20) as response:
-              html = response.read().decode("utf-8")
-              print("Homepage HTTP:",response.status,"bytes:",len(html))
+          html = Path("index.html").read_text(encoding="utf-8")
+          print("Repository HTML bytes:",len(html))
           print("Contains Supabase loader:", "function loadSupabaseData" in html)
-          print("Contains API fetch:", "fetch('/api/saresp')" in html)
-          print("Contains panel title:", "PAINEL SARESP" in html)
+          print("Contains Mapa Foco catalog:", 'id="mapaFocoSubjects"' in html)
+          print("Contains grade/class filter:", 'id="bankClass"' in html)
+          assert "function loadSupabaseData" in html, "Carregador Supabase ausente"
+          assert 'id="mapaFocoSubjects"' in html, "Catálogo Mapa Foco ausente"
+          assert 'id="bankClass"' in html, "Filtro ano/turma ausente"
           parser = Scripts()
           parser.feed(html)
           scripts = ["".join(parts) for parts in parser.parts]
