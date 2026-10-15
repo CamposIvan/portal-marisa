@@ -14,7 +14,7 @@ jobs:
       - name: Validar endpoint e dados publicados
         run: |
           python - <<'PY'
-          import json, time, urllib.request, urllib.error, sys
+          import json, time, urllib.request
           url = "https://painel-saresp-pei-marisa.vercel.app/api/saresp"
           last = None
           data = None
@@ -34,9 +34,7 @@ jobs:
                   time.sleep(5)
           if data is None:
               raise SystemExit(f"Falha ao consultar /api/saresp: {last}")
-          records = data.get("records")
-          targets = data.get("targets")
-          plan = data.get("plan")
+          records, targets, plan = data.get("records"), data.get("targets"), data.get("plan")
           assert isinstance(records, list), "records não é uma lista"
           assert isinstance(targets, list), "targets não é uma lista"
           assert isinstance(plan, list), "plan não é uma lista"
@@ -44,7 +42,7 @@ jobs:
           assert len(targets) == 4, f"Esperava 4 metas, recebi {len(targets)}"
           assert len(plan) == 4, f"Esperava 4 semanas, recebi {len(plan)}"
           assert all(x.get("lesson_url") and x.get("question_url") for x in records), "Há registro sem link de aula/questão"
-          assert sum(1 for x in records if x.get("is_mapa_foco_saresp")) == 132, "A quantidade de marcadores Mapa Foco divergiu da base importada"
+          assert sum(1 for x in records if x.get("is_mapa_foco_saresp")) == 132, "Quantidade de marcadores Mapa Foco divergente"
           print(json.dumps({
               "status":"ok",
               "records":len(records),
@@ -56,3 +54,39 @@ jobs:
               "refreshed_at":data.get("refreshed_at")
           }, ensure_ascii=False, indent=2))
           PY
+      - name: Validar JavaScript da página publicada
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from urllib.request import Request, urlopen
+          class Scripts(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.current = False
+                  self.parts = []
+                  self.attrs = {}
+              def handle_starttag(self, tag, attrs):
+                  if tag.lower() == "script":
+                      self.attrs = dict(attrs)
+                      self.current = not bool(self.attrs.get("src"))
+                      if self.current:
+                          self.parts.append([])
+              def handle_data(self, data):
+                  if self.current:
+                      self.parts[-1].append(data)
+              def handle_endtag(self, tag):
+                  if tag.lower() == "script":
+                      self.current = False
+          req = Request("https://painel-saresp-pei-marisa.vercel.app/", headers={"User-Agent":"SARESP-smoke-test"})
+          with urlopen(req, timeout=20) as response:
+              html = response.read().decode("utf-8")
+          parser = Scripts()
+          parser.feed(html)
+          scripts = ["".join(parts) for parts in parser.parts]
+          scripts = [js for js in scripts if "function loadSupabaseData" in js and "fetch('/api/saresp')" in js]
+          if not scripts:
+              raise SystemExit("A página publicada não contém o carregador do Supabase.")
+          open("/tmp/painel-saresp.js", "w", encoding="utf-8").write(scripts[-1])
+          print("JavaScript inline localizado; linhas:", len(scripts[-1].splitlines()))
+          PY
+          node --check /tmp/painel-saresp.js
