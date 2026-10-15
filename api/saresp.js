@@ -49,7 +49,7 @@ module.exports = async function handler(req, res) {
       ),
       fetchRows(
         "saresp_planning_targets",
-        "subject,focus_title,reference_percent,critical_threshold,reference_description,ae_codes,is_mapa_foco_saresp",
+        "subject,focus_title,reference_percent,critical_threshold,reference_description,ae_codes,is_mapa_foco_saresp,active",
         "id.asc"
       ).then(rows => rows.filter(row => row.active !== false)),
       fetchRows(
