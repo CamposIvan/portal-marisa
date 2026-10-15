@@ -70,7 +70,6 @@ async function upsert(table, rows, conflict, label) {
       method: "POST",
       headers: {
         apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
         "Content-Type": "application/json",
         Prefer: "resolution=merge-duplicates,return=representation"
       },
