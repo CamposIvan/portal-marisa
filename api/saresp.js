@@ -40,10 +40,10 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const [records, targets, plan, subjectCatalog] = await Promise.all([
+    const [records, targets, plan, subjectCatalog, mapFocusReferences] = await Promise.all([
       fetchRows(
         "saresp_results",
-        "class_group,bimester,grade_label,score_percent,descriptor,subject,lesson_url,question_url,source_file,source_row,is_mapa_foco_saresp,aprendizagens_essenciais",
+        "class_group,bimester,grade_label,score_percent,descriptor,subject,lesson_url,question_url,source_file,source_row,is_mapa_foco_saresp,aprendizagens_essenciais,raw_data",
         "grade_label.asc,bimester.asc,class_group.asc,source_row.asc"
       ),
       fetchRows(
@@ -60,7 +60,12 @@ module.exports = async function handler(req, res) {
         "saresp_subject_catalog",
         "grade_stage,grade_label,subject,active,mapa_foco_status,source_note",
         "grade_label.asc,subject.asc"
-      ).then(rows => rows.filter(row => row.active !== false))
+      ).then(rows => rows.filter(row => row.active !== false)),
+      fetchRows(
+        "saresp_map_focus_reference",
+        "academic_year,grade_label,subject,descriptor,is_mapa_foco_saresp,ae_codes,reference_document,mapping_status,notes",
+        "grade_label.asc,subject.asc,descriptor.asc"
+      ).then(rows => rows.filter(row => row.grade_label === "4° ANO"))
     ]);
 
     return res.status(200).json({
@@ -70,6 +75,7 @@ module.exports = async function handler(req, res) {
       subject_catalog: subjectCatalog,
       catalog: subjectCatalog,
       catalog_count: subjectCatalog.length,
+      map_focus_references: mapFocusReferences,
       refreshed_at: new Date().toISOString()
     });
   } catch (error) {
