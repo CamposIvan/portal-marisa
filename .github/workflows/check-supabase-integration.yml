@@ -77,16 +77,21 @@ jobs:
               def handle_endtag(self, tag):
                   if tag.lower() == "script":
                       self.current = False
-          req = Request("https://painel-saresp-pei-marisa.vercel.app/", headers={"User-Agent":"SARESP-smoke-test"})
+          req = Request("https://painel-saresp-pei-marisa.vercel.app/?smoke=73f7d745", headers={"User-Agent":"SARESP-smoke-test","Cache-Control":"no-cache"})
           with urlopen(req, timeout=20) as response:
               html = response.read().decode("utf-8")
+              print("Homepage HTTP:",response.status,"bytes:",len(html))
+          print("Contains Supabase loader:", "function loadSupabaseData" in html)
+          print("Contains API fetch:", "fetch('/api/saresp')" in html)
+          print("Contains panel title:", "PAINEL SARESP" in html)
           parser = Scripts()
           parser.feed(html)
           scripts = ["".join(parts) for parts in parser.parts]
-          scripts = [js for js in scripts if "function loadSupabaseData" in js and "fetch('/api/saresp')" in js]
-          if not scripts:
-              raise SystemExit("A página publicada não contém o carregador do Supabase.")
-          open("/tmp/painel-saresp.js", "w", encoding="utf-8").write(scripts[-1])
-          print("JavaScript inline localizado; linhas:", len(scripts[-1].splitlines()))
+          print("Inline script count:",len(scripts),"script lengths:",[len(x) for x in scripts])
+          candidates = [js for js in scripts if "function loadSupabaseData" in js]
+          if not candidates:
+              raise SystemExit("A página publicada não contém o carregador do Supabase. Verifique a versão do HTML/alias.")
+          open("/tmp/painel-saresp.js", "w", encoding="utf-8").write(candidates[-1])
+          print("JavaScript inline localizado; linhas:", len(candidates[-1].splitlines()))
           PY
           node --check /tmp/painel-saresp.js
