@@ -68,6 +68,8 @@ module.exports = async function handler(req, res) {
       targets,
       plan,
       subject_catalog: subjectCatalog,
+      catalog: subjectCatalog,
+      catalog_count: subjectCatalog.length,
       refreshed_at: new Date().toISOString()
     });
   } catch (error) {
