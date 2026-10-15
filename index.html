@@ -11,7 +11,7 @@
 <style>
 :root{--navy:#12345a;--blue:#1769aa;--cyan:#eaf5ff;--ink:#172b4d;--muted:#64748b;--line:#dce6f1;--danger:#b42318;--warn:#b45309;--green:#087443}
 *{box-sizing:border-box}body{font-family:Inter,system-ui,sans-serif;background:#f4f7fb;color:var(--ink);margin:0}.app{min-height:100vh}.sidebar,.topbar{background:linear-gradient(110deg,#102f52,#164f82);color:white}.topbar{border-bottom:1px solid rgba(255,255,255,.12)}.topbar-inner{width:100%}.nav-items{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}.nav-btn{display:flex;align-items:center;justify-content:center;gap:.55rem;width:auto;flex:0 0 auto;padding:10px 13px;border-radius:11px;text-align:left;color:#dceeff;transition:all .2s;font-size:.83rem;white-space:nowrap}.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.16);color:#fff;transform:translateY(-1px)}.nav-btn.active{box-shadow:inset 0 -3px #8fd3ff}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 22px rgba(17,49,83,.045)}.kpi{position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;width:88px;height:88px;border-radius:999px;right:-30px;top:-30px;background:rgba(23,105,170,.08)}.page{animation:fade .22s ease}.hidden-page{display:none!important}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.field{width:100%;border:1px solid #cfdae7;border-radius:10px;padding:9px 11px;background:white;color:var(--ink);font-size:.85rem;outline:none}.field:focus{border-color:#3988c8;box-shadow:0 0 0 3px rgba(57,136,200,.13)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:9px 13px;font-size:.84rem;font-weight:700;transition:.18s;cursor:pointer}.btn-primary{background:#1769aa;color:#fff}.btn-primary:hover{background:#0e548d}.btn-soft{background:#eaf4ff;color:#155a91}.btn-soft:hover{background:#dbeeff}.pill{display:inline-flex;border-radius:999px;padding:4px 9px;font-size:.72rem;font-weight:800;white-space:nowrap}.status-low{background:#fff0ef;color:#a12c24}.status-mid{background:#fff7e6;color:#945b00}.status-good{background:#e8f7ef;color:#087443}.table-wrap{width:100%;overflow-x:auto}table{border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem}th{background:#f2f6fb;color:#52657b;text-transform:uppercase;letter-spacing:.04em;font-size:.68rem;font-weight:800;padding:12px 13px;text-align:left;position:sticky;top:0;z-index:1}td{padding:12px 13px;border-top:1px solid #eaf0f6;vertical-align:top}tbody tr:hover{background:#f8fbff}.link{color:#1769aa;font-weight:700;text-decoration:none}.link:hover{text-decoration:underline}.mini-bar{height:7px;border-radius:999px;background:#e6edf5;overflow:hidden}.mini-bar span{display:block;height:100%;border-radius:999px;background:#267fc0}.focus-card{border:1px solid #d6e6f5;background:linear-gradient(135deg,#fff,#f5faff);border-radius:15px;padding:17px}.tag{font-size:.72rem;background:#eef4fa;color:#37506c;border-radius:8px;padding:4px 7px;font-weight:700}.empty{padding:32px;text-align:center;color:#718096}.table-caption{color:#64748b;font-size:.78rem}.mobile-menu{display:none}.main-content{width:100%;max-width:1600px;margin:0 auto}.page{min-width:0}.panel{min-width:0}.focus-card{min-width:0;overflow-wrap:anywhere}.nav-btn:focus-visible,.btn:focus-visible{outline:3px solid #8fd3ff;outline-offset:2px}
-.meta-tags{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px;margin-top:8px;min-width:0}.meta-pill{display:inline-flex;align-items:flex-start;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.35;border-radius:8px;padding:5px 8px;font-size:.7rem;font-weight:800}.meta-saresp{background:#f3e8ff;color:#6b21a8;border:1px solid #e9d5ff}.meta-ae{background:#eaf4ff;color:#155a91;border:1px solid #cfe5fb}.meta-pending{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.meta-tags{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px;margin-top:8px;min-width:0}.meta-pill{display:inline-flex;align-items:flex-start;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.35;border-radius:8px;padding:5px 8px;font-size:.7rem;font-weight:800}.meta-correlation{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.meta-saresp{background:#f3e8ff;color:#6b21a8;border:1px solid #e9d5ff}.meta-ae{background:#eaf4ff;color:#155a91;border:1px solid #cfe5fb}.meta-pending{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
 @media(max-width:1024px){.topbar-main{align-items:flex-start;flex-direction:column;gap:12px}.nav-items{width:100%;justify-content:flex-start}.nav-btn{font-size:.79rem;padding:10px 12px}}
 @media(max-width:768px){.topbar-inner{padding:12px 14px!important}.topbar-main{gap:10px}.nav-items{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;padding:1px 1px 7px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}.nav-btn{flex:0 0 auto;width:auto;padding:9px 11px;font-size:.76rem;gap:6px}.brand-caption{display:block}.main-content{padding:16px!important}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.page-heading{align-items:flex-start;flex-direction:column}.chart-area{height:250px!important}.page-heading>div:last-child{width:100%}.page-heading .btn{width:100%}.table-wrap table{min-width:760px}}
 @media(max-width:440px){.kpi-grid{grid-template-columns:1fr!important}.nav-btn{font-size:.72rem;padding:9px 10px}.main-content{padding:12px!important}.panel{border-radius:14px}.panel.p-5{padding:15px}.btn{font-size:.78rem;padding:9px 10px}.page-heading h1{font-size:1.55rem;line-height:1.2}.focus-card{padding:13px}}
@@ -45,6 +45,17 @@
    <span class="tag">Implementação posterior</span>
   </div>
   <div id="mapaFocoSubjects" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mt-4"></div>
+ </div>
+<div class="panel p-5" id="grade4CorrelationPanel">
+  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+   <div>
+    <h2 class="font-extrabold">4º ano A — Correlação pedagógica com o Mapa SARESP do 5º ano</h2>
+    <p class="text-sm text-slate-500 mt-1">As notas permanecem sendo os percentuais registrados para o 4º ano. A associação com Língua Portuguesa e Matemática do Mapa SARESP do 5º ano é uma referência pedagógica, não um resultado oficial do SARESP aplicado ao 4º ano.</p>
+    <p class="text-xs text-slate-500 mt-2"><a class="text-blue-700 underline" href="https://deosasco.educacao.sp.gov.br/circulares-2025/" target="_blank" rel="noopener noreferrer">Referência Mapa Foco SARESP</a> · guias de Língua Portuguesa e Matemática do 5º ano.</p>
+   </div>
+   <span class="tag">Correlação, não equivalência oficial</span>
+  </div>
+  <div id="grade4CorrelationSummary" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4"></div>
  </div>
 </section>
 <section id="page-historico" class="page hidden-page space-y-5">
@@ -172,7 +183,11 @@ function isMapaFocoSaresp(r){
  return false;
 }
 function metadataFor(r){
- if (Array.isArray(r?.[11])) return {saresp:isMapaFocoSaresp(r),aes:r[11]};
+ if (Array.isArray(r?.[11])) {
+  const raw = r?.[12] && typeof r[12] === 'object' ? r[12] : {};
+  const pedagogical = String(raw.tipo_correlacao || '').includes('correlacao_pedagogica_com_mapa_saresp_5_ano');
+  return {saresp:isMapaFocoSaresp(r),aes:r[11],raw,pedagogical,refs:Array.isArray(raw.mapa_foco_correlacoes)?raw.mapa_foco_correlacoes:[]};
+ }
  const raw=String(r[4]||''), d=normText(raw), comp=normText(discDisplay(r[5]));
  const isLP=comp.includes('lingua portuguesa'), isMat=comp.includes('matematica');
  const code=(raw.match(/^\s*(D\d+)\s*[-–:]/i)||[])[1];
@@ -215,7 +230,10 @@ function metadataFor(r){
 }
 function metadataHtml(r){
  const m=metadataFor(r), bits=[];
- if(m.saresp)bits.push('<span class="meta-pill meta-saresp" title="Descritor relacionado ao Mapa SARESP de 5º ano"><i class="fa-solid fa-bullseye mr-1" aria-hidden="true"></i>SARESP · MAPA FOCO</span>');
+ if(m.pedagogical){
+   bits.push('<span class="meta-pill meta-correlation" title="Correlação pedagógica com o Mapa SARESP do 5º ano; não representa resultado oficial do SARESP no 4º ano."><i class="fa-solid fa-link mr-1" aria-hidden="true"></i>CORRELAÇÃO PEDAGÓGICA · MAPA SARESP 5º ANO</span>');
+   m.refs.forEach(ref=>bits.push(`<span class="meta-pill meta-ae" title="${esc(ref.descriptor||'Referência do Mapa SARESP do 5º ano')}">Ref. 5º ano: ${esc(ref.descriptor||ref.reference_code||'Mapa SARESP')}</span>`));
+ }else if(m.saresp)bits.push('<span class="meta-pill meta-saresp" title="Descritor relacionado ao Mapa SARESP de 5º ano"><i class="fa-solid fa-bullseye mr-1" aria-hidden="true"></i>SARESP · MAPA FOCO</span>');
  if(m.aes.length) m.aes.forEach(a=>bits.push(`<span class="meta-pill meta-ae" title="${esc(a.id+' — '+a.title)}">${esc(a.id+' · '+a.title)}</span>`));
  else bits.push('<span class="meta-pill meta-pending" title="Os guias anexados para Língua Portuguesa e Matemática não contêm as Aprendizagens Essenciais específicas deste componente.">AE não mapeada</span>');
  return `<div class="meta-tags" aria-label="Mapeamento SARESP e Aprendizagens Essenciais">${bits.join('')}</div>`;
@@ -229,6 +247,7 @@ function linkButton(url,label,icon){const u=safeUrl(url);return u?`<a class="btn
 let remoteTargets=[];
 let remotePlan=[];
 let remoteSubjectCatalog=[];
+let remoteMapFocusReferences=[];
 const fallbackTargets=[
  {subject:'Língua Portuguesa',focus_title:'Pontuação e efeitos de sentido',reference_percent:16,critical_threshold:55,reference_description:'Revisar pontuação e outras notações.',ae_codes:['AE3'],is_mapa_foco_saresp:true},
  {subject:'Língua Portuguesa',focus_title:'Sentido de palavras e expressões',reference_percent:41,critical_threshold:55,reference_description:'Inferência lexical com apoio do contexto.',ae_codes:['AE4'],is_mapa_foco_saresp:true},
@@ -245,6 +264,20 @@ function renderSubjectCatalog(){
   const chips=rows.map(r=>`<div class="flex flex-col gap-1 rounded-lg border border-slate-200 px-3 py-2"><span class="text-sm font-semibold">${esc(r.subject)}</span><span class="text-xs text-amber-700"><i class="fa-solid fa-clock mr-1" aria-hidden="true"></i>Vínculo por descritor pendente</span></div>`).join('');
   return `<article class="rounded-xl border border-slate-200 p-4"><div class="flex items-center justify-between gap-2 mb-3"><h3 class="font-extrabold">${esc(grade.replace(/°/g,'º').replace(/ANO/i,'ano'))}</h3><span class="tag">${rows.length} componentes</span></div><div class="space-y-2">${chips||'<p class="text-sm text-slate-500">Componentes ainda não cadastrados.</p>'}</div></article>`;
  }).join('');
+}
+function renderGrade4CorrelationSummary(){
+ const el=document.getElementById('grade4CorrelationSummary');if(!el)return;
+ const rows=registros.filter(r=>gradeLabel(r)==='4º ano');
+ const corr=rows.filter(r=>String(r?.[12]?.tipo_correlacao||'').includes('correlacao_pedagogica_com_mapa_saresp_5_ano'));
+ const lp=corr.filter(r=>normText(discDisplay(r[5])).includes('lingua portuguesa')).length;
+ const mat=corr.filter(r=>normText(discDisplay(r[5])).includes('matematica')).length;
+ const cards=[
+  ['Resultados do 4º ano',rows.length,'Registros importados do 1º ao 3º bimestre.'],
+  ['Língua Portuguesa',lp,'Itens associados pedagogicamente às referências do 5º ano.'],
+  ['Matemática',mat,'Itens associados pedagogicamente às referências do 5º ano.']
+ ];
+ el.innerHTML=cards.map((c,i)=>`<div class="rounded-xl border border-slate-200 p-4"><div class="text-xs text-slate-500 font-bold">${c[0]}</div><div class="text-2xl font-extrabold mt-2">${c[1]}</div><p class="text-xs text-slate-500 mt-1">${c[2]}</p></div>`).join('');
+ if(!rows.length)el.innerHTML='<div class="sm:col-span-3 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">Os dados do 4º ano ainda não aparecem na tabela principal do Supabase. A correlação e o script de importação estão preparados; a etapa de carga dos registros precisa ser concluída.</div>';
 }
 function renderPlanningTargets(){const rows=remoteTargets.length?remoteTargets:fallbackTargets;const el=document.getElementById('planningTargetsGrid');if(!el)return;el.innerHTML=rows.map(t=>{const score=Number(t.reference_percent)||0;const critical=Number(t.critical_threshold??LIMIAR);const tone=score<critical?'#d94841':score<70?'#d97706':'#267fc0';const ae=(Array.isArray(t.ae_codes)?t.ae_codes:[]).map(code=>`<span class="meta-pill meta-ae">${esc(code)}</span>`).join('');return `<article class="focus-card"><div class="flex justify-between gap-2"><span class="text-sm font-bold">${esc(t.focus_title)}</span><span class="pill ${score<critical?'status-low':score<70?'status-mid':'status-good'}">${pct(score)}</span></div><div class="mini-bar mt-3"><span style="width:${Math.max(0,Math.min(100,score))}%;background:${tone}"></span></div><p class="text-xs text-slate-500 mt-2">${esc(t.subject)} • ${esc(t.reference_description||'Meta de intervenção')}</p><div class="meta-tags">${t.is_mapa_foco_saresp?'<span class="meta-pill meta-saresp"><i class="fa-solid fa-bullseye mr-1" aria-hidden="true"></i>SARESP · MAPA FOCO</span>':''}${ae}</div></article>`}).join('')}
 function renderInterventionPlan(){const el=document.getElementById('interventionPlanGrid');if(!el||!remotePlan.length)return;const colors=[['bg-blue-100 text-blue-800','fa-book-open text-blue-600'],['bg-indigo-100 text-indigo-800','fa-magnifying-glass text-indigo-600'],['bg-cyan-100 text-cyan-800','fa-calculator text-cyan-700'],['bg-violet-100 text-violet-800','fa-shapes text-violet-700']];const searches={1:'pontuação',2:'palavra ou expressão',3:'racionais',4:'figuras'};el.innerHTML=remotePlan.slice().sort((a,b)=>a.week_number-b.week_number).map(p=>{const n=Number(p.week_number)||1;const pair=colors[(n-1)%colors.length];return `<article class="panel p-5"><div class="flex justify-between items-center mb-3"><span class="pill ${pair[0]}">SEMANA ${n}</span><i class="fa-solid ${pair[1]} text-lg"></i></div><h3 class="font-extrabold text-lg">${esc(p.title)}</h3><p class="text-sm text-slate-600 mt-2">${esc(p.description)}</p><div class="mt-3 text-xs font-bold text-slate-500">Referência: ${esc(p.lesson_reference||'Consulte o banco de aulas e questões.')}</div><div class="mt-4"><button type="button" class="btn btn-soft" data-plan-search="${esc(searches[n]||p.subject||'')}"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Consultar aulas e questões</button></div></article>`}).join('');el.querySelectorAll('[data-plan-search]').forEach(btn=>btn.addEventListener('click',()=>{const term=btn.getAttribute('data-plan-search')||'';mapaFocoOnly=false;syncNav(activeTab);goTab('banco');const input=document.getElementById('bankSearch');input.value=term;renderBank()}));}
@@ -265,6 +298,7 @@ function initFilters(){
  });
 }
 function renderDashboard(){
+ renderGrade4CorrelationSummary();
  renderPlanningTargets();
  const average=medias(registros),below=registros.filter(r=>r[3]<LIMIAR).length;
  const kpis=[['Registros analisados',registros.length,'fa-database','Todos os descritores e itens cadastrados'],['Média geral de acertos',pct(average),'fa-chart-simple','Média dos resultados cadastrados'],['Registros abaixo de 55%',below,'fa-triangle-exclamation',pct(100*below/registros.length)+' da base'],['Questões vinculadas',registros.filter(r=>safeUrl(r[7])).length,'fa-circle-question','Links individuais para consulta']];
@@ -299,12 +333,13 @@ async function loadSupabaseData(){
   const next=payload.records.map(r=>[
    r.class_group,Number(r.bimester),r.grade_label,Number(r.score_percent),r.descriptor,r.subject,
    r.lesson_url||'',r.question_url||'',r.source_file,Number(r.source_row),Boolean(r.is_mapa_foco_saresp),
-   Array.isArray(r.aprendizagens_essenciais)?r.aprendizagens_essenciais:[]
+   Array.isArray(r.aprendizagens_essenciais)?r.aprendizagens_essenciais:[],r.raw_data||{}
   ]);
   if(next.length)registros=next;
   remoteTargets=Array.isArray(payload.targets)?payload.targets:[];
   remotePlan=Array.isArray(payload.plan)?payload.plan:[];
   remoteSubjectCatalog=Array.isArray(payload.subject_catalog)?payload.subject_catalog:(Array.isArray(payload.catalog)?payload.catalog:[]);
+  remoteMapFocusReferences=Array.isArray(payload.map_focus_references)?payload.map_focus_references:[];
   initFilters();
   renderSubjectCatalog();
   loadPlanResources();
@@ -317,6 +352,6 @@ async function loadSupabaseData(){
  }
 }
 
-initFilters();renderSubjectCatalog();loadPlanResources();renderDashboard();renderHistory();renderBank();loadSupabaseData();
+initFilters();renderSubjectCatalog();renderGrade4CorrelationSummary();loadPlanResources();renderDashboard();renderHistory();renderBank();loadSupabaseData();
 </script>
 </body></html>
