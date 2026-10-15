@@ -11,7 +11,7 @@ jobs:
   import-grade4:
     runs-on: ubuntu-latest
     steps:
-      - name: Executar carga validada
+      - name: Verificar integridade do pacote antes da carga
         env:
           IMPORT_URL: https://painel-saresp-pei-marisa.vercel.app/api/import-grade4?confirm=grade4-2026-import
         run: |
