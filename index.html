@@ -304,7 +304,7 @@ async function loadSupabaseData(){
   if(next.length)registros=next;
   remoteTargets=Array.isArray(payload.targets)?payload.targets:[];
   remotePlan=Array.isArray(payload.plan)?payload.plan:[];
-  remoteSubjectCatalog=Array.isArray(payload.subject_catalog)?payload.subject_catalog:[];
+  remoteSubjectCatalog=Array.isArray(payload.subject_catalog)?payload.subject_catalog:(Array.isArray(payload.catalog)?payload.catalog:[]);
   initFilters();
   renderSubjectCatalog();
   loadPlanResources();
