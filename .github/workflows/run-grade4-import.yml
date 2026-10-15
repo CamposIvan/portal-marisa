@@ -16,6 +16,18 @@ jobs:
           IMPORT_URL: https://painel-saresp-pei-marisa.vercel.app/api/import-grade4?confirm=grade4-2026-import
         run: |
           set -euo pipefail
-          response=$(curl --fail-with-body --silent --show-error --max-time 180 -X POST -H 'Accept: application/json' "$IMPORT_URL")
+          response=$(curl --silent --show-error --max-time 180 -X POST -H 'Accept: application/json' -w '\nHTTP_STATUS:%{http_code}' "$IMPORT_URL" || true)
           echo "$response"
-          python -c 'import json,sys; d=json.loads(sys.argv[1]); assert d.get("ok") is True, d; assert d.get("imported_records")==180, d; assert d.get("imported_correlations")==66, d; print("Importação confirmada: 180 resultados e 66 correlações.")' "$response"
+          python - <<'PY' "$response"
+          import json,sys
+          raw=sys.argv[1]
+          body,status=raw.rsplit("\\nHTTP_STATUS:",1)
+          print("HTTP status:",status)
+          if status != "200":
+              raise SystemExit("Import endpoint returned HTTP "+status)
+          data=json.loads(body)
+          assert data.get("ok") is True, data
+          assert data.get("imported_records")==180, data
+          assert data.get("imported_correlations")==66, data
+          print("Importação confirmada: 180 resultados e 66 correlações.")
+          PY
