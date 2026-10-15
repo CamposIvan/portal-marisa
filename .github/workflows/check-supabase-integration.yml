@@ -43,8 +43,10 @@ jobs:
           assert len(records) == 600, f"Esperava 600 resultados, recebi {len(records)}"
           assert len(targets) == 4, f"Esperava 4 metas, recebi {len(targets)}"
           assert len(plan) == 4, f"Esperava 4 semanas, recebi {len(plan)}"
-          catalog = data.get("subject_catalog")
-          assert isinstance(catalog, list), "subject_catalog não é uma lista"
+          catalog = data.get("subject_catalog", data.get("catalog"))
+          print("API payload keys:", sorted(data.keys()))
+          print("Catalog type:", type(catalog).__name__, "reported catalog_count:", data.get("catalog_count"))
+          assert isinstance(catalog, list), f"Catálogo curricular ausente ou inválido; chaves recebidas: {sorted(data.keys())}"
           assert len(catalog) == 24, f"Esperava 24 entradas de catálogo, recebi {len(catalog)}"
           assert sum(1 for x in records if x.get("grade_label") == "6° ANO") == 240, "Esperava 240 resultados do 6º ano A"
           assert len({x.get("source_file") for x in records}) == 9, "Esperava os seis CSVs do 5º ano e os três XLSX do 6º ano"
