@@ -8,12 +8,16 @@ O painel consulta `public.saresp_results`, as metas de referência em `public.sa
 
 ### Dados atualmente carregados
 
-- **5º ano A e B:** 360 registros dos seis CSVs, 1º ao 3º bimestre.
-- **6º ano A:** 240 registros dos três XLSX, 80 por bimestre, 1º ao 3º bimestre.
-- Todos os 600 registros importados têm link de aula e link de questão.
-- Catálogo dos Anos Finais: 6 componentes curriculares para cada ano do 6º ao 9º (24 entradas).
+- **4º ano A:** 180 registros dos três XLSX (60 por bimestre, do 1º ao 3º bimestre).
+- **5º ano A e B:** 360 registros dos seis CSVs, do 1º ao 3º bimestre.
+- **6º ano A:** 240 registros dos três XLSX (80 por bimestre, do 1º ao 3º bimestre).
+- **Total:** 780 registros; todos possuem link de aula e link de questão.
+- **Correlação do 4º ano:** 117 itens de Língua Portuguesa e Matemática associados pedagogicamente a 19 referências do Mapa SARESP do 5º ano.
+- **Catálogo dos Anos Finais:** seis componentes curriculares por ano, do 6º ao 9º (24 entradas).
 
-Os componentes do catálogo são Língua Portuguesa, Matemática, Ciências, História, Geografia e Língua Inglesa, em alinhamento com os componentes listados no documento de referência do Mapa Foco 2025 – SAEB e SARESP. O catálogo está pronto, mas a associação descritor a descritor e aula a aula será implementada e validada depois. Por isso, os registros do 6º ano ainda não são etiquetados como Mapa Foco SARESP.
+As correlações do 4º ano A ficam em `raw_data` e na tabela `public.saresp_map_focus_reference`, acompanhadas da observação de que são referências pedagógicas para orientar o planejamento. **Os registros do 4º ano não são resultados oficiais do SARESP e não recebem a marcação oficial `is_mapa_foco_saresp`.** Ciências, História e Geografia permanecem sem essa correlação, que foi solicitada somente para Língua Portuguesa e Matemática. Os registros do 6º ano também não são etiquetados como Mapa Foco SARESP.
+
+Os componentes do catálogo são Língua Portuguesa, Matemática, Ciências, História, Geografia e Língua Inglesa. As referências curriculares do 5º ano constam nos guias de Língua Portuguesa (páginas 46–50) e Matemática (páginas 71–78).
 
 Referência da divulgação: [Circular 157/2025 — Mapa Foco 2025, URE Osasco](https://deosasco.educacao.sp.gov.br/circulares-2025/). [Documento de referência dos Anos Finais](https://pt.scribd.com/document/898247838/Mapa-Foco-2025-SAEB-e-SARESP-Anos-Finais-e-EM).
 
